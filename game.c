@@ -173,31 +173,37 @@ void drawBackground() {
 void update(int value) {
     if (gameOver) return;
 
+    float farthestX = 0;
+    for (const auto &p : pipes) {
+        if (p.x > farthestX) farthestX = p.x;
+    }
+
     for (auto &pipe : pipes) {
         pipe.x -= 5; // Move pipes left
 
-        if (pipe.x + PIPE_WIDTH < 0) { // Reset pipe when it moves out of screen
-            pipe.x = WINDOW_WIDTH;
+        if (pipe.x + PIPE_WIDTH < 0) {
+            pipe.x = farthestX + 200; // Proper spacing from last pipe
             pipe.height = rand() % 200 + 100;
             pipe.passed = false;
         }
 
-        if (!pipe.passed && pipe.x + PIPE_WIDTH < birdX) { // Scoring
+        if (!pipe.passed && pipe.x + PIPE_WIDTH < birdX) {
             pipe.passed = true;
             score += 10;
             if (score > highScore) {
-                highScore = score; // Update high score
+                highScore = score;
             }
         }
     }
 
-    velocity -= GRAVITY; // Apply gravity
+    velocity -= GRAVITY;
     birdY += velocity;
 
     checkCollision();
     glutPostRedisplay();
     glutTimerFunc(16, update, 0);
 }
+
 
 // Function to handle keypresses
 void handleKeypress(unsigned char key, int x, int y) {
