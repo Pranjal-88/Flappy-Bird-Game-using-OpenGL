@@ -11,8 +11,8 @@
 #define PIPE_GAP 150
 #define GRAVITY 0.5f
 #define JUMP_STRENGTH 8.0f
-#define DAY_NIGHT_TRANSITION 50 // Score threshold for day/night transition
-#define TRANSITION_ZONE 30      // Score range for smooth transition (15 points before and after transition)
+#define DAY_NIGHT_TRANSITION 150 
+#define TRANSITION_ZONE 30     
 
 struct Pipe {
     float x, height;
@@ -24,7 +24,6 @@ struct Color {
     
     Color(float red, float green, float blue) : r(red), g(green), b(blue) {}
     
-    // Linear interpolation between two colors
     static Color lerp(const Color& a, const Color& b, float t) {
         // Ensure t is between 0 and 1
         t = t < 0 ? 0 : (t > 1 ? 1 : t);
@@ -36,7 +35,6 @@ struct Color {
     }
 };
 
-// Define day, twilight and night colors for smooth transition
 const Color DAY_SKY(0.4f, 0.7f, 1.0f);           // Light blue sky
 const Color TWILIGHT_SKY(0.6f, 0.4f, 0.7f);      // Purple twilight sky
 const Color NIGHT_SKY(0.1f, 0.1f, 0.3f);         // Dark blue night sky
